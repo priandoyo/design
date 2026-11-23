@@ -2,19 +2,19 @@
 
 A collection of front-end dashboard prototypes exploring user interface (UI), user experience (UX), and information design for supervisory and operational applications.
 
-This repository currently contains two standalone dashboard concepts: an **OJK SupTech Dashboard** and an **ANES Team & Task Management Dashboard**. Both are built with HTML, CSS, and JavaScript and can be viewed directly in a web browser.
+This repository currently contains two standalone dashboard concepts: an **SupTech Dashboard** and an **Team & Task Management Dashboard**. Both are built with HTML, CSS, and JavaScript and can be viewed directly in a web browser.
 
 ## Projects
 
-### 1. OJK SupTech Dashboard
+### 1. SupTech Dashboard
 
 A Supervisory Technology (SupTech) dashboard concept for financial regulators. It presents a consolidated view of financial-sector supervision, institutional risk, supervisory activities, and early-warning indicators.
 
 **Preview**
 
-![OJK SupTech Dashboard](dashboard-suptech.png)
+![SupTech Dashboard](dashboard-suptech.png)
 
-- **Live demo:** [Open OJK SupTech Dashboard](https://priandoyo.github.io/design/dashboard-suptech.html)
+- **Live demo:** [Open SupTech Dashboard](https://priandoyo.github.io/design/dashboard-suptech.html)
 - **Source code:** [dashboard-suptech.html](dashboard-suptech.html)
 - **Screenshot:** [dashboard-suptech.png](dashboard-suptech.png)
 
@@ -27,7 +27,7 @@ A Supervisory Technology (SupTech) dashboard concept for financial regulators. I
 - Early-warning alerts
 - Responsive layout for different screen sizes
 
-### 2. ANES — Team & Task Management Dashboard
+### 2. Team & Task Management Dashboard
 
 A team productivity and project management dashboard concept. It brings together project progress, task activity, team information, and attendance-related controls in one interface.
 
