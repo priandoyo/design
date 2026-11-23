@@ -1,286 +1,1462 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OJK SupTech | Digital Supervision Platform</title>
-  <link rel="stylesheet" href="style.css">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OJK SupTech | Digital Supervision Platform</title>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+/* =====================================
+   1. DESIGN SYSTEM
+===================================== */
+
+:root {
+  --navy: #102344;
+  --navy-light: #19365f;
+  --blue: #1765c1;
+  --background: #f4f7fc;
+  --white: #ffffff;
+  --text: #17233f;
+  --muted: #7b879b;
+  --border: #e5eaf2;
+  --green: #159b59;
+  --red: #e63946;
+  --yellow: #f4b400;
+  --shadow: 0 3px 12px rgba(22,45,85,.05);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: var(--background);
+  color: var(--text);
+  font-size: 14px;
+}
+
+button, input, select {
+  font: inherit;
+}
+
+/* =====================================
+   2. APPLICATION LAYOUT
+===================================== */
+
+.app {
+  display: flex;
+  min-height: 100vh;
+}
+
+.sidebar {
+  width: 245px;
+  background: var(--navy);
+  color: white;
+  padding: 25px 15px;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 10px 35px;
+}
+
+.brand-logo {
+  font-size: 28px;
+  font-weight: 800;
+  border-right: 2px solid #8ea8c9;
+  padding-right: 12px;
+}
+
+.brand h2 {
+  font-size: 22px;
+}
+
+.brand span {
+  color: #aabbd2;
+  font-size: 11px;
+}
+
+.nav-label {
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  color: #8297b5;
+  padding: 0 12px 12px;
+}
+
+nav {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 12px 13px;
+  color: #d7e0ed;
+  border-radius: 7px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: .2s;
+}
+
+.nav-item span {
+  width: 20px;
+  text-align: center;
+  font-size: 18px;
+}
+
+.nav-item:hover {
+  background: var(--navy-light);
+  color: white;
+}
+
+.nav-item.active {
+  background: #24569a;
+  color: white;
+  font-weight: 600;
+}
+
+.sidebar-bottom {
+  margin-top: auto;
+}
+
+.sidebar-footer {
+  border-top: 1px solid #344967;
+  margin-top: 20px;
+  padding: 15px 5px 0;
+  color: #8297b5;
+  font-size: 10px;
+}
+
+/* =====================================
+   3. HEADER
+===================================== */
+
+.main {
+  flex: 1;
+  min-width: 0;
+}
+
+.topbar {
+  height: 82px;
+  background: white;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 30px;
+  gap: 30px;
+}
+
+.search-box {
+  width: 390px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid #d9e1ed;
+  border-radius: 8px;
+  padding: 11px 15px;
+  color: var(--muted);
+}
+
+.search-box input {
+  border: none;
+  outline: none;
+  width: 100%;
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.notification {
+  position: relative;
+  background: white;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  color: var(--navy);
+}
+
+.notification-count {
+  position: absolute;
+  top: -7px;
+  right: -7px;
+  background: var(--red);
+  color: white;
+  font-size: 10px;
+  padding: 3px 6px;
+  border-radius: 20px;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #dceaff;
+  color: var(--blue);
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+}
+
+.profile-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.profile-info small {
+  color: var(--muted);
+}
+
+.mobile-brand {
+  display: none;
+}
+
+/* =====================================
+   4. PAGE CONTENT
+===================================== */
+
+.page {
+  padding: 25px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.page-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 23px;
+}
+
+.page-heading h1 {
+  font-size: 25px;
+  margin-bottom: 5px;
+}
+
+.page-heading p {
+  color: var(--muted);
+}
+
+.date-select {
+  padding: 11px 15px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  cursor: pointer;
+}
+
+/* =====================================
+   5. KPI CARDS
+===================================== */
+
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(5,minmax(0,1fr));
+  gap: 13px;
+  margin-bottom: 22px;
+}
+
+.kpi-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  padding: 18px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: var(--shadow);
+  min-width: 0;
+}
+
+.kpi-icon {
+  width: 43px;
+  height: 43px;
+  min-width: 43px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 23px;
+}
+
+.blue { color: #1765c1; background: #eaf2ff; }
+.red { color: #e63946; background: #ffebed; }
+.green { color: #159b59; background: #e4f7ed; }
+.yellow { color: #e6a400; background: #fff6dd; }
+
+.kpi-info {
+  min-width: 0;
+}
+
+.kpi-info span {
+  font-size: 11px;
+  color: #536078;
+  display: block;
+}
+
+.kpi-info h2 {
+  font-size: 25px;
+  margin: 5px 0;
+}
+
+.kpi-info small {
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.positive { color: var(--green); }
+.negative { color: var(--red); }
+
+/* =====================================
+   6. PANELS AND GRIDS
+===================================== */
+
+.content-grid {
+  display: grid;
+  grid-template-columns: 1.05fr .95fr;
+  gap: 15px;
+  margin-bottom: 22px;
+}
+
+.bottom-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr 1.1fr;
+  gap: 15px;
+}
+
+.panel {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: var(--shadow);
+  min-width: 0;
+}
+
+.panel-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.panel-heading h3 {
+  font-size: 16px;
+}
+
+.muted {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+/* =====================================
+   7. RISK HEATMAP
+===================================== */
+
+.table-scroll {
+  overflow-x: auto;
+}
+
+.heatmap {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 590px;
+}
+
+.heatmap th,
+.heatmap td {
+  padding: 10px 5px;
+  text-align: center;
+  border-bottom: 1px solid #edf0f5;
+  font-size: 11px;
+}
+
+.heatmap th {
+  color: #43516b;
+}
+
+.heatmap td:first-child,
+.heatmap th:first-child {
+  text-align: left;
+}
+
+.risk-cell {
+  display: block;
+  padding: 6px 5px;
+  border-radius: 5px;
+  font-weight: 700;
+}
+
+.risk-H { background: #ffdddd; color: #c92332; }
+.risk-M { background: #fff1cb; color: #9c6b00; }
+.risk-L { background: #dff5e4; color: #168448; }
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  padding-top: 17px;
+  font-size: 11px;
+  color: #56647b;
+}
+
+.legend span {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.dot {
+  width: 11px;
+  height: 11px;
+  border-radius: 3px;
+}
+
+.dot.high { background: #ff858b; }
+.dot.medium { background: #ffdb73; }
+.dot.low { background: #91dda0; }
+
+/* =====================================
+   8. RISK CHART
+===================================== */
+
+.chart-container {
+  height: 270px;
+  position: relative;
+  width: 100%;
+}
+
+/* =====================================
+   9. SUPERVISORY PIPELINE
+===================================== */
+
+.pipeline {
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  gap: 10px;
+}
+
+.pipeline-item {
+  border-radius: 8px;
+  padding: 18px 8px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.pipeline-item span { font-size: 12px; }
+.pipeline-item strong { font-size: 23px; }
+
+.planning { background: #e9edf4; }
+.progress { background: #dceaff; color: #1759a7; }
+.review { background: #fff2cc; color: #946b00; }
+.closed { background: #dff3df; color: #23834b; }
+
+/* =====================================
+   10. FINDINGS
+===================================== */
+
+.findings-list {
+  display: flex;
+  flex-direction: column;
+  gap: 17px;
+}
+
+.finding-row {
+  display: grid;
+  grid-template-columns: minmax(0,1fr) 1.2fr 22px;
+  gap: 9px;
+  align-items: center;
+  font-size: 11px;
+}
+
+.finding-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.finding-track {
+  height: 10px;
+  background: #edf0f5;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.finding-bar {
+  height: 100%;
+  border-radius: 10px;
+  background: #e74a56;
+}
+
+.finding-count {
+  font-weight: 700;
+  text-align: right;
+}
+
+/* =====================================
+   11. EARLY WARNING
+===================================== */
+
+.alerts-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.alert-item {
+  display: flex;
+  gap: 10px;
+  padding: 12px 0;
+  border-bottom: 1px solid #edf0f5;
+  align-items: flex-start;
+}
+
+.alert-item:last-child {
+  border-bottom: none;
+}
+
+.alert-dot {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  margin-top: 4px;
+  flex-shrink: 0;
+}
+
+.alert-dot.high { background: #e63946; }
+.alert-dot.medium { background: #f4b400; }
+
+.alert-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.alert-content strong {
+  font-size: 12px;
+  display: block;
+  line-height: 1.4;
+}
+
+.alert-content small {
+  display: block;
+  margin-top: 5px;
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.alert-level {
+  font-size: 10px;
+  padding: 5px 8px;
+  border-radius: 5px;
+  font-weight: 700;
+}
+
+.alert-level.high {
+  background: #ffe0e2;
+  color: #c92332;
+}
+
+.alert-level.medium {
+  background: #fff0c7;
+  color: #936500;
+}
+
+.text-button {
+  background: none;
+  border: none;
+  color: var(--blue);
+  cursor: pointer;
+  font-size: 12px;
+}
+
+/* =====================================
+   12. MODULE PLACEHOLDER
+===================================== */
+
+.module-placeholder {
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.placeholder-icon {
+  font-size: 50px;
+  color: var(--blue);
+  margin-bottom: 15px;
+}
+
+.module-placeholder p {
+  color: var(--muted);
+  margin: 10px 0 20px;
+}
+
+.primary-button {
+  background: var(--blue);
+  color: white;
+  border: none;
+  border-radius: 7px;
+  padding: 11px 20px;
+  cursor: pointer;
+}
+
+/* =====================================
+   13. FOOTER
+===================================== */
+
+footer {
+  margin-top: 25px;
+  padding: 15px 0;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+/* =====================================
+   14. RESPONSIVE
+===================================== */
+
+@media(max-width:1250px) {
+  .kpi-grid { grid-template-columns: repeat(3,1fr); }
+  .bottom-grid { grid-template-columns: repeat(2,1fr); }
+}
+
+@media(max-width:900px) {
+  .sidebar { width: 205px; }
+  .content-grid { grid-template-columns: 1fr; }
+  .bottom-grid { grid-template-columns: 1fr; }
+}
+
+@media(max-width:650px) {
+  .sidebar { display: none; }
+
+  .topbar {
+    height: auto;
+    min-height: 70px;
+    padding: 12px;
+    gap: 10px;
+    justify-content: space-between;
+  }
+
+  .mobile-brand {
+    display: block;
+    font-size: 18px;
+    white-space: nowrap;
+  }
+
+  .search-box {
+    width: auto;
+    flex: 1;
+    max-width: 220px;
+    padding: 9px;
+  }
+
+  .search-box input { font-size: 11px; }
+  .profile-info { display: none; }
+
+  .page { padding: 16px 12px; }
+
+  .page-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .page-heading h1 { font-size: 21px; }
+
+  .kpi-grid { grid-template-columns: repeat(2,1fr); }
+
+  .kpi-card {
+    padding: 12px 9px;
+    gap: 8px;
+  }
+
+  .kpi-info h2 { font-size: 20px; }
+  .kpi-info span { font-size: 10px; }
+
+  .panel { padding: 14px; }
+
+  footer { flex-direction: column; gap: 7px; }
+}
+</style>
 </head>
+
 <body>
 
 <div class="app">
 
-  <!-- SIDEBAR -->
-  <aside class="sidebar">
-    <div class="brand">
-      <div class="brand-logo">OJK</div>
+<!-- =====================================
+     SIDEBAR
+===================================== -->
+
+<aside class="sidebar">
+
+  <div class="brand">
+    <div class="brand-logo">OJK</div>
+    <div>
+      <h2>SupTech</h2>
+      <span>Digital Supervision</span>
+    </div>
+  </div>
+
+  <div class="nav-label">MAIN MENU</div>
+
+  <nav id="navigation">
+    <a class="nav-item active" data-page="Dashboard"><span>▦</span>Dashboard</a>
+    <a class="nav-item" data-page="Institutions"><span>▤</span>Institutions</a>
+    <a class="nav-item" data-page="Monitoring"><span>◉</span>Monitoring</a>
+    <a class="nav-item" data-page="Risk Assessment"><span>⚠</span>Risk Assessment</a>
+    <a class="nav-item" data-page="Compliance"><span>☷</span>Compliance</a>
+    <a class="nav-item" data-page="Examination"><span>▣</span>Examination</a>
+    <a class="nav-item" data-page="Findings & Remediation"><span>☑</span>Findings & Remediation</a>
+    <a class="nav-item" data-page="Early Warning"><span>♧</span>Early Warning</a>
+    <a class="nav-item" data-page="Analytics"><span>▥</span>Analytics</a>
+    <a class="nav-item" data-page="AI Assistant"><span>✧</span>AI Assistant</a>
+  </nav>
+
+  <div class="sidebar-bottom">
+    <a class="nav-item" data-page="Administration"><span>⚙</span>Administration</a>
+    <div class="sidebar-footer">OJK SupTech Prototype v1.0</div>
+  </div>
+
+</aside>
+
+
+<!-- =====================================
+     MAIN
+===================================== -->
+
+<main class="main">
+
+  <header class="topbar">
+
+    <div class="mobile-brand">OJK <b>SupTech</b></div>
+
+    <div class="search-box">
+      <span>⌕</span>
+      <input id="searchInput" type="text"
+        placeholder="Search institution, finding, regulation...">
+    </div>
+
+    <div class="profile">
+      <button class="notification" id="notificationBtn">
+        ♧ <span class="notification-count">3</span>
+      </button>
+      <div class="avatar">AP</div>
+      <div class="profile-info">
+        <strong>Anjar Priandoyo</strong>
+        <small>Supervisor</small>
+      </div>
+    </div>
+
+  </header>
+
+
+  <!-- =====================================
+       DASHBOARD
+  ===================================== -->
+
+  <section id="dashboardPage" class="page">
+
+    <div class="page-heading">
       <div>
-        <h2>SupTech</h2>
-        <span>Digital Supervision</span>
+        <h1>Good evening, Anjar</h1>
+        <p>Here is the supervisory overview of Indonesia's financial sector.</p>
+      </div>
+
+      <select id="dateRange" class="date-select">
+        <option value="30">Last 30 Days</option>
+        <option value="90">Last 90 Days</option>
+        <option value="180">Last 6 Months</option>
+        <option value="365">Last 12 Months</option>
+      </select>
+    </div>
+
+
+    <!-- KPI CARDS -->
+
+    <div class="kpi-grid">
+
+      <div class="kpi-card">
+        <div class="kpi-icon blue">▤</div>
+        <div class="kpi-info">
+          <span>Supervised Institutions</span>
+          <h2>2,567</h2>
+          <small class="positive">▲ 1.2%</small>
+        </div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-icon red">⚠</div>
+        <div class="kpi-info">
+          <span>High-Risk Institutions</span>
+          <h2>37</h2>
+          <small class="negative">▲ 8.8%</small>
+        </div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-icon green">▣</div>
+        <div class="kpi-info">
+          <span>Compliance Rate</span>
+          <h2>93.4%</h2>
+          <small class="positive">▲ 0.9 pp</small>
+        </div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-icon blue">♢</div>
+        <div class="kpi-info">
+          <span>Open Findings</span>
+          <h2>214</h2>
+          <small class="positive">▼ 12.3%</small>
+        </div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-icon yellow">ϟ</div>
+        <div class="kpi-info">
+          <span>Early Warning Alerts</span>
+          <h2>12</h2>
+          <small class="negative">▲ 20.0%</small>
+        </div>
+      </div>
+
+    </div>
+
+
+    <!-- RISK HEATMAP AND CHART -->
+
+    <div class="content-grid">
+
+      <div class="panel">
+        <div class="panel-heading">
+          <h3>Industry Risk Heatmap</h3>
+          <span class="muted">ⓘ</span>
+        </div>
+
+        <div class="table-scroll">
+          <table class="heatmap">
+            <thead>
+              <tr>
+                <th>Sector</th>
+                <th>Credit</th>
+                <th>Market</th>
+                <th>Operational</th>
+                <th>IT / Cyber</th>
+                <th>Compliance</th>
+                <th>Overall</th>
+              </tr>
+            </thead>
+            <tbody id="heatmapBody"></tbody>
+          </table>
+        </div>
+
+        <div class="legend">
+          <span><i class="dot high"></i> H = High Risk</span>
+          <span><i class="dot medium"></i> M = Medium Risk</span>
+          <span><i class="dot low"></i> L = Low Risk</span>
+        </div>
+      </div>
+
+
+      <div class="panel">
+        <div class="panel-heading">
+          <h3>Risk Trend (Overall Industry)</h3>
+        </div>
+        <div class="chart-container">
+          <canvas id="riskChart"></canvas>
+        </div>
+      </div>
+
+    </div>
+
+
+    <!-- BOTTOM DASHBOARD -->
+
+    <div class="bottom-grid">
+
+      <!-- PIPELINE -->
+
+      <div class="panel">
+        <div class="panel-heading">
+          <h3>Supervisory Pipeline</h3>
+        </div>
+
+        <div class="pipeline">
+          <div class="pipeline-item planning">
+            <span>Planning</span>
+            <strong>24</strong>
+          </div>
+
+          <div class="pipeline-item progress">
+            <span>In Progress</span>
+            <strong>56</strong>
+          </div>
+
+          <div class="pipeline-item review">
+            <span>Review</span>
+            <strong>18</strong>
+          </div>
+
+          <div class="pipeline-item closed">
+            <span>Closed</span>
+            <strong>102</strong>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- FINDINGS -->
+
+      <div class="panel">
+        <div class="panel-heading">
+          <h3>Top Findings</h3>
+          <span class="muted">Last 30 Days</span>
+        </div>
+        <div id="findingsList" class="findings-list"></div>
+      </div>
+
+
+      <!-- ALERTS -->
+
+      <div class="panel">
+        <div class="panel-heading">
+          <h3>Early Warning & Alerts</h3>
+          <button class="text-button" id="viewAlerts">View All</button>
+        </div>
+        <div id="alertsList" class="alerts-list"></div>
+      </div>
+
+    </div>
+
+
+    <footer>
+      <span>OJK SupTech Digital Supervision Platform</span>
+      <span>Prototype • Sample Data • 2026</span>
+    </footer>
+
+  </section>
+
+
+  <!-- =====================================
+       OTHER MODULES
+  ===================================== -->
+
+  <section id="modulePage" class="page hidden">
+
+    <div class="page-heading">
+      <div>
+        <h1 id="moduleTitle">Institutions</h1>
+        <p id="moduleDescription">Manage and monitor supervised institutions.</p>
       </div>
     </div>
 
-    <div class="nav-label">MAIN MENU</div>
-
-    <nav id="navigation">
-      <a class="nav-item active" data-page="Dashboard">
-        <span>▦</span> Dashboard
-      </a>
-      <a class="nav-item" data-page="Institutions">
-        <span>▤</span> Institutions
-      </a>
-      <a class="nav-item" data-page="Monitoring">
-        <span>◉</span> Monitoring
-      </a>
-      <a class="nav-item" data-page="Risk Assessment">
-        <span>⚠</span> Risk Assessment
-      </a>
-      <a class="nav-item" data-page="Compliance">
-        <span>☷</span> Compliance
-      </a>
-      <a class="nav-item" data-page="Examination">
-        <span>▣</span> Examination
-      </a>
-      <a class="nav-item" data-page="Findings & Remediation">
-        <span>☑</span> Findings & Remediation
-      </a>
-      <a class="nav-item" data-page="Early Warning">
-        <span>♧</span> Early Warning
-      </a>
-      <a class="nav-item" data-page="Analytics">
-        <span>▥</span> Analytics
-      </a>
-      <a class="nav-item" data-page="AI Assistant">
-        <span>✧</span> AI Assistant
-      </a>
-    </nav>
-
-    <div class="sidebar-bottom">
-      <a class="nav-item" data-page="Administration">
-        <span>⚙</span> Administration
-      </a>
-      <div class="sidebar-footer">OJK SupTech Prototype v1.0</div>
+    <div class="panel module-placeholder">
+      <div class="placeholder-icon">▦</div>
+      <h2 id="moduleMessage">Module under development</h2>
+      <p>This module will be part of the OJK SupTech platform.</p>
+      <button id="backDashboard" class="primary-button">
+        Return to Dashboard
+      </button>
     </div>
-  </aside>
 
-  <!-- MAIN CONTENT -->
-  <main class="main">
+  </section>
 
-    <!-- TOP HEADER -->
-    <header class="topbar">
-      <div class="mobile-brand">OJK <b>SupTech</b></div>
-
-      <div class="search-box">
-        <span>⌕</span>
-        <input id="searchInput"
-          type="text"
-          placeholder="Search institution, finding, regulation...">
-      </div>
-
-      <div class="profile">
-        <button class="notification" id="notificationBtn">
-          ♧ <span class="notification-count">3</span>
-        </button>
-        <div class="avatar">AP</div>
-        <div class="profile-info">
-          <strong>Anjar Priandoyo</strong>
-          <small>Supervisor</small>
-        </div>
-      </div>
-    </header>
-
-    <!-- DASHBOARD PAGE -->
-    <section id="dashboardPage" class="page">
-
-      <div class="page-heading">
-        <div>
-          <h1>Good evening, Anjar</h1>
-          <p>Here is the supervisory overview of Indonesia's financial sector.</p>
-        </div>
-
-        <select id="dateRange" class="date-select">
-          <option value="30">Last 30 Days</option>
-          <option value="90">Last 90 Days</option>
-          <option value="180">Last 6 Months</option>
-          <option value="365">Last 12 Months</option>
-        </select>
-      </div>
-
-      <!-- KPI CARDS -->
-      <div class="kpi-grid">
-
-        <div class="kpi-card">
-          <div class="kpi-icon blue">▤</div>
-          <div class="kpi-info">
-            <span>Supervised Institutions</span>
-            <h2>2,567</h2>
-            <small class="positive">▲ 1.2%</small>
-          </div>
-        </div>
-
-        <div class="kpi-card">
-          <div class="kpi-icon red">⚠</div>
-          <div class="kpi-info">
-            <span>High-Risk Institutions</span>
-            <h2>37</h2>
-            <small class="negative">▲ 8.8%</small>
-          </div>
-        </div>
-
-        <div class="kpi-card">
-          <div class="kpi-icon green">▣</div>
-          <div class="kpi-info">
-            <span>Compliance Rate</span>
-            <h2>93.4%</h2>
-            <small class="positive">▲ 0.9 pp</small>
-          </div>
-        </div>
-
-        <div class="kpi-card">
-          <div class="kpi-icon blue">♢</div>
-          <div class="kpi-info">
-            <span>Open Findings</span>
-            <h2>214</h2>
-            <small class="positive">▼ 12.3%</small>
-          </div>
-        </div>
-
-        <div class="kpi-card">
-          <div class="kpi-icon yellow">ϟ</div>
-          <div class="kpi-info">
-            <span>Early Warning Alerts</span>
-            <h2>12</h2>
-            <small class="negative">▲ 20.0%</small>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- CHARTS ROW -->
-      <div class="content-grid">
-
-        <!-- RISK HEATMAP -->
-        <div class="panel heatmap-panel">
-          <div class="panel-heading">
-            <h3>Industry Risk Heatmap</h3>
-            <span class="info-icon" title="Illustrative sector risk ratings">ⓘ</span>
-          </div>
-
-          <div class="table-scroll">
-            <table class="heatmap">
-              <thead>
-                <tr>
-                  <th>Sector</th>
-                  <th>Credit</th>
-                  <th>Market</th>
-                  <th>Operational</th>
-                  <th>IT / Cyber</th>
-                  <th>Compliance</th>
-                  <th>Overall</th>
-                </tr>
-              </thead>
-              <tbody id="heatmapBody"></tbody>
-            </table>
-          </div>
-
-          <div class="legend">
-            <span><i class="dot high"></i> H = High Risk</span>
-            <span><i class="dot medium"></i> M = Medium Risk</span>
-            <span><i class="dot low"></i> L = Low Risk</span>
-          </div>
-        </div>
-
-        <!-- RISK TREND -->
-        <div class="panel">
-          <div class="panel-heading">
-            <h3>Risk Trend (Overall Industry)</h3>
-          </div>
-          <div class="chart-container">
-            <canvas id="riskChart"></canvas>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- BOTTOM ROW -->
-      <div class="bottom-grid">
-
-        <!-- PIPELINE -->
-        <div class="panel">
-          <div class="panel-heading">
-            <h3>Supervisory Pipeline</h3>
-          </div>
-
-          <div class="pipeline">
-            <div class="pipeline-item planning">
-              <span>Planning</span>
-              <strong>24</strong>
-            </div>
-            <div class="pipeline-item progress">
-              <span>In Progress</span>
-              <strong>56</strong>
-            </div>
-            <div class="pipeline-item review">
-              <span>Review</span>
-              <strong>18</strong>
-            </div>
-            <div class="pipeline-item closed">
-              <span>Closed</span>
-              <strong>102</strong>
-            </div>
-          </div>
-        </div>
-
-        <!-- FINDINGS -->
-        <div class="panel">
-          <div class="panel-heading">
-            <h3>Top Findings</h3>
-            <span class="muted">Last 30 Days</span>
-          </div>
-          <div id="findingsList" class="findings-list"></div>
-        </div>
-
-        <!-- ALERTS -->
-        <div class="panel">
-          <div class="panel-heading">
-            <h3>Early Warning & Alerts</h3>
-            <button class="text-button" id="viewAlerts">View All</button>
-          </div>
-          <div id="alertsList" class="alerts-list"></div>
-        </div>
-
-      </div>
-
-      <footer>
-        OJK SupTech Digital Supervision Platform
-        <span>Prototype • Sample Data • 2026</span>
-      </footer>
-
-    </section>
-
-    <!-- OTHER MODULE PLACEHOLDER -->
-    <section id="modulePage" class="page hidden">
-      <div class="page-heading">
-        <div>
-          <h1 id="moduleTitle">Institutions</h1>
-          <p id="moduleDescription">Manage and monitor supervised institutions.</p>
-        </div>
-      </div>
-      <div class="panel module-placeholder">
-        <div class="placeholder-icon">▦</div>
-        <h2 id="moduleMessage">Module under development</h2>
-        <p>This module will be part of the OJK SupTech platform.</p>
-        <button id="backDashboard" class="primary-button">
-          Return to Dashboard
-        </button>
-      </div>
-    </section>
-
-  </main>
+</main>
 </div>
 
-<script src="script.js"></script>
+
+<!-- =====================================
+     JAVASCRIPT
+===================================== -->
+
+<script>
+
+/* =====================================
+   1. INDUSTRY RISK DATA
+===================================== */
+
+const riskData = [
+  {sector:"🏦 Banking",values:["M","L","M","H","M","M"]},
+  {sector:"🛡 Insurance",values:["M","M","M","M","L","M"]},
+  {sector:"◈ Multi Finance",values:["H","M","H","M","M","H"]},
+  {sector:"▣ Fintech",values:["M","L","H","H","M","H"]},
+  {sector:"▥ Capital Market",values:["L","M","M","M","L","M"]}
+];
+
+const heatmapBody = document.getElementById("heatmapBody");
+
+riskData.forEach(item => {
+
+  const row = document.createElement("tr");
+
+  const sector = document.createElement("td");
+  sector.textContent = item.sector;
+  row.appendChild(sector);
+
+  item.values.forEach(value => {
+
+    const cell = document.createElement("td");
+    const span = document.createElement("span");
+
+    span.className = `risk-cell risk-${value}`;
+    span.textContent = value;
+
+    cell.appendChild(span);
+    row.appendChild(cell);
+
+  });
+
+  heatmapBody.appendChild(row);
+
+});
+
+
+/* =====================================
+   2. TOP FINDINGS
+===================================== */
+
+const findings = [
+  {name:"IT Governance & Management",count:31},
+  {name:"Cybersecurity & Access Control",count:24},
+  {name:"Operational Risk Management",count:18},
+  {name:"Data Governance & Integrity",count:12},
+  {name:"Regulatory Compliance (POJK)",count:9}
+];
+
+const findingsList = document.getElementById("findingsList");
+
+const maxFinding = Math.max(...findings.map(f => f.count));
+
+findings.forEach(item => {
+
+  const row = document.createElement("div");
+  row.className = "finding-row";
+
+  const label = document.createElement("span");
+  label.className = "finding-label";
+  label.textContent = item.name;
+
+  const track = document.createElement("div");
+  track.className = "finding-track";
+
+  const bar = document.createElement("div");
+  bar.className = "finding-bar";
+  bar.style.width = `${item.count/maxFinding*100}%`;
+
+  track.appendChild(bar);
+
+  const count = document.createElement("span");
+  count.className = "finding-count";
+  count.textContent = item.count;
+
+  row.append(label,track,count);
+  findingsList.appendChild(row);
+
+});
+
+
+/* =====================================
+   3. EARLY WARNING ALERTS
+===================================== */
+
+const alerts = [
+  {
+    title:"Unusual transaction spike",
+    institution:"Digital Bank A",
+    time:"2 hours ago",
+    level:"High"
+  },
+  {
+    title:"Increased login failure rate",
+    institution:"Bank B",
+    time:"5 hours ago",
+    level:"Medium"
+  },
+  {
+    title:"New critical vulnerability (CVE-2026-109618)",
+    institution:"Multiple Institutions",
+    time:"8 hours ago",
+    level:"Medium"
+  },
+  {
+    title:"Suspicious privileged account activity",
+    institution:"Insurance C",
+    time:"12 hours ago",
+    level:"High"
+  },
+  {
+    title:"Unusual API traffic",
+    institution:"Fintech D",
+    time:"1 day ago",
+    level:"Medium"
+  }
+];
+
+const alertsList = document.getElementById("alertsList");
+
+function renderAlerts(data) {
+
+  alertsList.innerHTML = "";
+
+  data.forEach(item => {
+
+    const row = document.createElement("div");
+    row.className = "alert-item";
+
+    const dot = document.createElement("div");
+    dot.className = `alert-dot ${item.level.toLowerCase()}`;
+
+    const content = document.createElement("div");
+    content.className = "alert-content";
+
+    const title = document.createElement("strong");
+    title.textContent = item.title;
+
+    const description = document.createElement("small");
+    description.textContent =
+      `${item.institution} · ${item.time}`;
+
+    content.append(title,description);
+
+    const level = document.createElement("span");
+    level.className = `alert-level ${item.level.toLowerCase()}`;
+    level.textContent = item.level;
+
+    row.append(dot,content,level);
+
+    alertsList.appendChild(row);
+
+  });
+
+}
+
+renderAlerts(alerts.slice(0,3));
+
+
+/* =====================================
+   4. RISK TREND CHART
+===================================== */
+
+const chartContext = document
+  .getElementById("riskChart")
+  .getContext("2d");
+
+const riskChart = new Chart(chartContext, {
+
+  type:"line",
+
+  data:{
+
+    labels:["Jun","Jul","Aug","Sep","Oct","Nov"],
+
+    datasets:[
+
+      {
+        label:"Credit",
+        data:[2.20,2.25,2.23,2.26,2.28,2.28],
+        borderColor:"#8661d8",
+        backgroundColor:"transparent",
+        tension:.3,
+        borderWidth:2.5
+      },
+
+      {
+        label:"Market",
+        data:[2.15,2.17,2.13,2.15,2.18,2.21],
+        borderColor:"#159b59",
+        backgroundColor:"transparent",
+        tension:.3,
+        borderWidth:2.5
+      },
+
+      {
+        label:"Operational",
+        data:[2.52,2.57,2.68,2.69,2.78,2.85],
+        borderColor:"#ef4056",
+        backgroundColor:"rgba(239,64,86,.06)",
+        tension:.3,
+        fill:true,
+        borderWidth:2.5
+      },
+
+      {
+        label:"IT / Cyber",
+        data:[2.38,2.39,2.48,2.51,2.61,2.70],
+        borderColor:"#1765c1",
+        backgroundColor:"transparent",
+        tension:.3,
+        borderWidth:2.5
+      }
+
+    ]
+
+  },
+
+  options:{
+
+    responsive:true,
+    maintainAspectRatio:false,
+
+    interaction:{
+      mode:"index",
+      intersect:false
+    },
+
+    plugins:{
+      legend:{
+        position:"bottom",
+        labels:{
+          usePointStyle:true,
+          boxWidth:8,
+          padding:14,
+          font:{size:10}
+        }
+      }
+    },
+
+    scales:{
+
+      y:{
+        min:2,
+        max:3,
+        ticks:{stepSize:.2},
+        grid:{color:"#e8edf5"}
+      },
+
+      x:{
+        grid:{display:false}
+      }
+
+    }
+
+  }
+
+});
+
+
+/* =====================================
+   5. DATE RANGE SELECTOR
+===================================== */
+
+document.getElementById("dateRange")
+.addEventListener("change",function(){
+
+  const datasets = {
+
+    "30":[
+      [2.20,2.25,2.23,2.26,2.28,2.28],
+      [2.15,2.17,2.13,2.15,2.18,2.21],
+      [2.52,2.57,2.68,2.69,2.78,2.85],
+      [2.38,2.39,2.48,2.51,2.61,2.70]
+    ],
+
+    "90":[
+      [2.15,2.20,2.25,2.23,2.28,2.28],
+      [2.10,2.14,2.17,2.15,2.18,2.21],
+      [2.42,2.50,2.57,2.69,2.78,2.85],
+      [2.30,2.35,2.39,2.51,2.61,2.70]
+    ],
+
+    "180":[
+      [2.10,2.15,2.20,2.25,2.28,2.28],
+      [2.05,2.10,2.14,2.17,2.18,2.21],
+      [2.30,2.42,2.50,2.69,2.78,2.85],
+      [2.20,2.30,2.39,2.51,2.61,2.70]
+    ],
+
+    "365":[
+      [2.00,2.05,2.10,2.20,2.25,2.28],
+      [2.00,2.05,2.10,2.14,2.18,2.21],
+      [2.20,2.30,2.42,2.57,2.70,2.85],
+      [2.10,2.20,2.30,2.45,2.60,2.70]
+    ]
+
+  };
+
+  const selected = datasets[this.value];
+
+  riskChart.data.datasets.forEach((dataset,index)=>{
+    dataset.data = selected[index];
+  });
+
+  riskChart.update();
+
+});
+
+
+/* =====================================
+   6. SIDEBAR NAVIGATION
+===================================== */
+
+const dashboardPage = document.getElementById("dashboardPage");
+const modulePage = document.getElementById("modulePage");
+
+const moduleDescriptions = {
+
+  "Institutions":"Manage and monitor regulated financial institutions.",
+  "Monitoring":"Monitor financial-sector activities and indicators.",
+  "Risk Assessment":"Assess institutional and industry-wide risk exposure.",
+  "Compliance":"Evaluate regulatory compliance and obligations.",
+  "Examination":"Manage digital examinations and inspections.",
+  "Findings & Remediation":"Track supervisory findings and corrective actions.",
+  "Early Warning":"Monitor alerts, anomalies and emerging threats.",
+  "Analytics":"Explore supervisory data and analytical insights.",
+  "AI Assistant":"AI-powered regulatory and supervisory intelligence.",
+  "Administration":"Manage users, roles and platform configurations."
+
+};
+
+document.getElementById("navigation")
+.addEventListener("click",function(event){
+
+  const link = event.target.closest(".nav-item");
+
+  if(!link) return;
+
+  const page = link.dataset.page;
+
+  document.querySelectorAll(".nav-item")
+  .forEach(item=>item.classList.remove("active"));
+
+  link.classList.add("active");
+
+  if(page==="Dashboard"){
+
+    dashboardPage.classList.remove("hidden");
+    modulePage.classList.add("hidden");
+    return;
+
+  }
+
+  dashboardPage.classList.add("hidden");
+  modulePage.classList.remove("hidden");
+
+  document.getElementById("moduleTitle").textContent=page;
+
+  document.getElementById("moduleDescription").textContent=
+    moduleDescriptions[page] || "SupTech platform module.";
+
+  document.getElementById("moduleMessage").textContent=
+    page+" Module";
+
+});
+
+
+/* =====================================
+   7. RETURN TO DASHBOARD
+===================================== */
+
+document.getElementById("backDashboard")
+.addEventListener("click",function(){
+
+  document.querySelectorAll(".nav-item")
+  .forEach(item=>item.classList.remove("active"));
+
+  document.querySelector('[data-page="Dashboard"]')
+  .classList.add("active");
+
+  modulePage.classList.add("hidden");
+  dashboardPage.classList.remove("hidden");
+
+});
+
+
+/* =====================================
+   8. SEARCH
+===================================== */
+
+document.getElementById("searchInput")
+.addEventListener("input",function(){
+
+  const query=this.value.toLowerCase().trim();
+
+  const allSearchable=[
+
+    ...alerts.map(item=>
+      `${item.title} ${item.institution} ${item.level}`
+    ),
+
+    ...findings.map(item=>item.name),
+
+    ...riskData.map(item=>item.sector)
+
+  ];
+
+  const matches=allSearchable.filter(item=>
+    item.toLowerCase().includes(query)
+  );
+
+  if(query){
+    console.log("SupTech search results:",matches);
+  }
+
+});
+
+
+/* =====================================
+   9. VIEW ALL ALERTS
+===================================== */
+
+document.getElementById("viewAlerts")
+.addEventListener("click",function(){
+
+  renderAlerts(alerts);
+  this.textContent="Showing All";
+
+});
+
+
+/* =====================================
+   10. NOTIFICATIONS
+===================================== */
+
+document.getElementById("notificationBtn")
+.addEventListener("click",function(){
+
+  alert(
+    "OJK SupTech Notifications\n\n"+
+    "3 new supervisory alerts detected.\n"+
+    "Please review the Early Warning section."
+  );
+
+});
+
+
+/* =====================================
+   11. INITIALIZATION
+===================================== */
+
+console.log("OJK SupTech Dashboard initialized.");
+
+</script>
+
 </body>
 </html>
