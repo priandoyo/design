@@ -1,71 +1,87 @@
-# Design Prototypes
+# Dashboard Design Prototypes
 
-A collection of web-based dashboard prototypes exploring user interface (UI), user experience (UX), and information design for operational and supervisory applications.
+A collection of front-end dashboard prototypes exploring user interface (UI), user experience (UX), and information design for supervisory and operational applications.
 
-Built using HTML, CSS, and JavaScript, these prototypes demonstrate dashboard concepts, layouts, visualizations, and interactive components.
+This repository currently contains two standalone dashboard concepts: an **OJK SupTech Dashboard** and an **ANES Team & Task Management Dashboard**. Both are built with HTML, CSS, and JavaScript and can be viewed directly in a web browser.
 
-## Live Demos
+## Projects
 
 ### 1. OJK SupTech Dashboard
 
-A Supervisory Technology (SupTech) dashboard concept designed for financial regulators to monitor financial institutions, industry risks, compliance, supervisory activities, and early-warning indicators.
+A Supervisory Technology (SupTech) dashboard concept for financial regulators. It presents a consolidated view of financial-sector supervision, institutional risk, supervisory activities, and early-warning indicators.
 
-**Features:**
-- Supervisory overview and institution portfolio
-- Financial industry risk monitoring
-- Risk heatmap and risk indicators
-- Industry risk trends
-- Supervisory pipeline and findings
+**Preview**
+
+![OJK SupTech Dashboard](dashboard-suptech.png)
+
+- **Live demo:** [Open OJK SupTech Dashboard](https://priandoyo.github.io/design/dashboard-suptech.html)
+- **Source code:** [dashboard-suptech.html](dashboard-suptech.html)
+- **Screenshot:** [dashboard-suptech.png](dashboard-suptech.png)
+
+**Dashboard components**
+- Supervisory overview and institution portfolio indicators
+- Financial-sector risk heatmap
+- Industry risk trend visualization
+- Supervisory pipeline and examination progress
+- Findings overview
 - Early-warning alerts
+- Responsive layout for different screen sizes
 
-**Live Demo:**  
-https://priandoyo.github.io/design/dashboard-suptech.html
+### 2. ANES — Team & Task Management Dashboard
 
-![SupTech Dashboard](screenshots/dashboard-suptech.png)
+A team productivity and project management dashboard concept. It brings together project progress, task activity, team information, and attendance-related controls in one interface.
 
-### 2. Task Management Dashboard (ANES)
+**Preview**
 
-A team productivity and project management dashboard concept for monitoring projects, tasks, team activities, and organizational performance.
+![ANES Team & Task Management Dashboard](dashboard-task-management.png)
 
-**Features:**
-- Project and task overview
-- Project analytics and progress tracking
-- Team productivity indicators
-- Recent team activities
-- Project status monitoring
-- Team attendance and clock-in/clock-out
+- **Live demo:** [Open Task Management Dashboard](https://priandoyo.github.io/design/dashboard-task-management.html)
+- **Source code:** [dashboard-task-management.html](dashboard-task-management.html)
+- **Screenshot:** [dashboard-task-management.png](dashboard-task-management.png)
 
-**Live Demo:**  
-https://priandoyo.github.io/design/dashboard-task-management.html
-
-![Task Management Dashboard](screenshots/dashboard-task-management.png)
+**Dashboard components**
+- Team and task summary indicators
+- Project overview with status and progress
+- Project activity and productivity visualizations
+- Recent team activity
+- Team progress overview
+- Team member and attendance information
+- Clock-in and clock-out interface
+- Responsive layout for desktop and mobile screens
 
 ## Technology Stack
 
-- HTML5
-- CSS3
-- JavaScript
-- GitHub Pages
+| Technology | Purpose |
+|---|---|
+| HTML5 | Page structure and semantic content |
+| CSS3 | Layout, styling, and responsive design |
+| JavaScript | Interface interactions and dashboard behavior |
+| Chart.js | Data visualization in the SupTech dashboard |
+| GitHub Pages | Static hosting for the live demos |
 
 ## Run Locally
 
-Clone the repository:
+No build step or package installation is required.
 
-```bash
-git clone https://github.com/priandoyo/design.git
-cd design
-```
+1. Clone the repository:
 
-Start a local web server:
+   ```bash
+   git clone https://github.com/priandoyo/design.git
+   cd design
+   ```
 
-```bash
-python -m http.server 8000
-```
+2. Start a local web server:
 
-Open in your browser:
+   ```bash
+   python -m http.server 8000
+   ```
 
-- http://localhost:8000/dashboard-suptech.html
-- http://localhost:8000/dashboard-task-management.html
+3. Open either dashboard:
+
+   - http://localhost:8000/dashboard-suptech.html
+   - http://localhost:8000/dashboard-task-management.html
+
+You can also open the HTML files directly in a modern browser.
 
 ## Repository Structure
 
@@ -73,24 +89,23 @@ Open in your browser:
 design/
 ├── README.md
 ├── dashboard-suptech.html
+├── dashboard-suptech.png
 ├── dashboard-task-management.html
-└── screenshots/
-    ├── dashboard-suptech.png
-    └── dashboard-task-management.png
+└── dashboard-task-management.png
 ```
 
-## Notes
+## Project Notes
 
-- These are front-end prototypes for demonstration and design exploration.
-- Dashboard metrics and records are illustrative sample data.
-- These prototypes are not production-ready applications.
-- The interfaces may evolve as development continues.
+- These projects are front-end prototypes intended for demonstration, UI/UX exploration, and learning.
+- Dashboard figures, names, and records are illustrative sample data, not live institutional or business information.
+- The prototypes do not represent production-ready supervisory or task management systems.
+- Features and interface designs may change as the prototypes evolve.
 
 ## Author
 
 **Anjar Priandoyo**
 
-GitHub: https://github.com/priandoyo
+[GitHub Profile](https://github.com/priandoyo)
 
 ---
 
